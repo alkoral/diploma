@@ -6,11 +6,6 @@ return array(
 //	'user' => 'korzun',
 //	'password' => 'neto1653',
 
-//	'host' => 'localhost',
-//	'dbname' => 'korzun_diploma',
-//	'user' => 'korzun_root',
-//	'password' => '?$PDhZl)8;{3',
-
 	'host' => 'localhost',
 	'dbname' => 'diploma',
 	'user' => 'root',

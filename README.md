@@ -19,6 +19,7 @@ http://localhost/diploma/faqs
 https://github.com/alkoral/diploma
 
 Гитхаб упорно не дает скопировать файл .htaccess. На всякий случай вот его содержимое:
+
 AddDefaultCharset utf-8
 
 RewriteEngine on

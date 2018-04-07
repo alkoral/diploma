@@ -1,0 +1,50 @@
+
+{% extends "main.twig" %}
+
+{% block title %}Задать вопрос{% endblock %}
+
+{% block content %}
+
+<div class="section">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6">
+				<h1>Задайте свой вопрос</h1>
+
+				<form role="form" method="post" action="">
+
+					<div class="form-group">
+						<label for="text">Ваше имя</label>
+						<input type="text" class="form-control" name="author" value="" required>
+					</div>
+
+					<div class="form-group">
+				    <label for="question_email">Ваш электронный адрес</label>
+				    <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Введите email" required>
+				    <small id="emailHelp" class="form-text text-muted">Не волнуйтесь: мы никому не передадим ваш email.</small>
+				  </div>
+
+					<div class="form-group">
+  					<label for="category_id">Выберете категорию вопроса</label>
+  						<select class="form-control" name="category_id">
+						{% for category in categories %}
+					    <option value="{{category.id}}">{{category.name}}</option>
+						{% endfor %}
+						  </select>
+					</div>
+
+					<div class="form-group">
+					  <label for="question">Сформулируйте свой вопрос</label>
+					  <textarea class="form-control" name="question" rows="5" maxlength="255" required></textarea>
+					  <style type="text/css">#exampleTextarea { resize: none; }</style>
+					  <small id="emailHelp" class="form-text text-muted">Максимум - 255 символов.</small>
+					</div>
+
+					<button type="submit" name="submit" class="btn btn-primary">Передать</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock content %}

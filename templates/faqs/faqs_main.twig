@@ -1,0 +1,67 @@
+{% extends "main.twig" %}
+
+{% block title %}Все вопросы и ответы{% endblock %}
+
+{% block content %}
+
+<div class="container"> <!-- Начало контейнера -->
+  <div class="row"> <!-- Начало ряда -->
+    <div class="col"> <!-- Начало блока вопросов -->
+      <h3>Вопросы и ответы</h3>
+
+      <div class="tabbable"> <!-- Начало таблицы  -->
+        <ul class="nav nav-pills nav-stacked col-md-3"> <!-- Начало левой колонки -->
+          {% for category in categories %}
+            {% if category.id == 1%}
+              <li class="active"><a href="#cat{{category.id}}" data-toggle="tab">{{ category.name }}</a></li>
+            {% else %}
+              <li><a href="#cat{{category.id}}" data-toggle="tab">{{ category.name }}</a></li>
+            {% endif %}
+          {% endfor %}
+        </ul> <!-- Конец левой колонки -->
+
+        <div class="tab-content col-md-9"> <!-- Начало правой колонки -->
+
+        {% for category in categories %}
+          {% if category.id == 1 %}
+          <div class="tab-pane active" id="cat{{category.id}}"> <!-- Начало блока вопросов и ответов для этой категории -->
+          {% else %}
+          <div class="tab-pane" id="cat{{category.id}}"> <!-- Начало блока вопросов и ответов для этой категории -->
+          {% endif %}
+             <h4>{{category.name}}</h4>
+            <div class="panel-group" id="collapse-group-{{category.id}}"> <!-- Начало группы вопросов и ответов -->
+              
+        {% for topic in topics %}
+          {% if topic.status == 2 %}
+          {% if topic.category_id == category.id %}
+
+              <div class="panel panel-info"> <!-- Вопрос и ответ -->
+
+                <div class="panel-heading"> <!-- Вопрос -->
+                  <a  href="#el{{topic.id}}" data-toggle="collapse" data-parent="#collapse-group-{{category.id}}">{{topic.question}}</a>
+                </div> <!-- Конец вопроса -->
+                
+                <div id="el{{topic.id}}" class="collapse"> <!-- Ответ -->
+                  <div class="panel-body">
+                    {{topic.answer}}
+                  </div>
+									<div class="panel-footer"> <!-- Начало футера к вопросу -->
+										Author: {{topic.author}} | Email: {{topic.email}} | Date: {{topic.date}}
+									</div> <!-- Конец футера к вопросу -->
+                </div> <!-- Конец ответа -->
+              </div> <!-- Конец вопроса и ответа -->
+          {% endif %}
+          {% endif %}
+        {% endfor %}
+
+            </div> <!-- Конец группы вопросов и ответов -->
+          </div> <!-- Конец блока вопросов и ответов для этой категории -->
+        {% endfor %}
+
+        </div> <!-- Конец правой колонки -->
+      </div> <!-- Конец таблицы  -->
+    </div> <!-- Конец блока вопросов -->
+  </div> <!-- Конец ряда -->
+</div> <!-- Конец контейнера -->
+
+{% endblock content %}

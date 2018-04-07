@@ -1,0 +1,23 @@
+{% extends "main.twig" %}
+
+{% block title %}Все категории{% endblock %}
+
+{% block content %}
+
+
+<h1>Все категории</h1>
+
+{% for category in categories %}
+  {{category.id}}: {{category.name}}<br>
+{% endfor %}
+<br>
+
+{#}
+{% for category in categories %}
+{{ category.id|first }}<br>
+{% endfor %}
+<br>
+{#}
+
+
+{% endblock content %}

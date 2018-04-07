@@ -1,0 +1,9 @@
+<h1>Hello World</h1>
+<?php
+$sql = "SHOW TABLES";   // Выводим список всех таблиц в БД
+$result = $mysql->query($sql);
+  foreach($result as $row) {
+    $table_name = $row[0];
+    echo "<input type='radio' name='table_name' value='".$table_name."'>".$table_name."<br>\n";
+}
+?>

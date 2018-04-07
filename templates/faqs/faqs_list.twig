@@ -1,0 +1,19 @@
+{% extends "main.twig" %}
+
+{% block title %}Все вопросы и ответы{% endblock %}
+
+{% block content %}
+
+
+<h1>Тестовая страница: Все вопросы и ответы по категориям</h1>
+
+{% for category in categories %}
+  {{category.id}}: {{category.name}}<br>
+{% endfor %}
+<br>
+{% for topic in topics %}
+  {{topic.id}}: <a href="faqs/{{topic.id}}">{{topic.question}}</a><br>
+{% endfor %}
+
+{% endblock content %}
+

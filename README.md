@@ -36,6 +36,7 @@ RewriteRule ^(.*)$ index.php
 MySQL таблицы – в корневой директории (diploma.sql)
 
 Логины/пароли админов такие:
+
 admin / admin
 
 user / user

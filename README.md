@@ -10,7 +10,9 @@ http://korzun.globalreservation.com/diploma/index.php
 
 На локальном сервере проект располагается не в корневой директории, а в папке diploma. Соответственно, путь к проекту будет таким:
 http://localhost/diploma/index.php
+
 или таким:
+
 http://localhost/diploma/faqs
 
 Ссылка на гитхаб – тут:

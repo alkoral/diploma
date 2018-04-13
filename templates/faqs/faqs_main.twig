@@ -1,21 +1,22 @@
 {% extends "main.twig" %}
 
-{% block title %}Все вопросы и ответы{% endblock %}
+{% block title %}Все вопросы и ответы{% endblock title %}
 
 {% block content %}
 
 <div class="container"> <!-- Начало контейнера -->
   <div class="row"> <!-- Начало ряда -->
     <div class="col"> <!-- Начало блока вопросов -->
+
       <h3>Вопросы и ответы</h3>
 
       <div class="tabbable"> <!-- Начало таблицы  -->
         <ul class="nav nav-pills nav-stacked col-md-3"> <!-- Начало левой колонки -->
           {% for category in categories %}
-            {% if category.id == 1%}
-              <li class="active"><a href="#cat{{category.id}}" data-toggle="tab">{{ category.name }}</a></li>
+            {% if category.id == first %} {# выводим первую запись из списка категорий #}
+              <li class="active"><a href="#cat{{category.id}}" data-toggle="tab">{{category.name}}</a></li>
             {% else %}
-              <li><a href="#cat{{category.id}}" data-toggle="tab">{{ category.name }}</a></li>
+              <li><a href="#cat{{category.id}}" data-toggle="tab">{{category.name}}</a></li>
             {% endif %}
           {% endfor %}
         </ul> <!-- Конец левой колонки -->
@@ -23,7 +24,7 @@
         <div class="tab-content col-md-9"> <!-- Начало правой колонки -->
 
         {% for category in categories %}
-          {% if category.id == 1 %}
+          {% if category.id == first %}
           <div class="tab-pane active" id="cat{{category.id}}"> <!-- Начало блока вопросов и ответов для этой категории -->
           {% else %}
           <div class="tab-pane" id="cat{{category.id}}"> <!-- Начало блока вопросов и ответов для этой категории -->
@@ -46,7 +47,7 @@
                     {{topic.answer}}
                   </div>
 									<div class="panel-footer"> <!-- Начало футера к вопросу -->
-										Author: {{topic.author}} | Email: {{topic.email}} | Date: {{topic.date}}
+										Автор: {{topic.author}} | Email: {{topic.email}} | Дата: {{topic.date|date("M. d, Y / H:i:s")}}
 									</div> <!-- Конец футера к вопросу -->
                 </div> <!-- Конец ответа -->
               </div> <!-- Конец вопроса и ответа -->

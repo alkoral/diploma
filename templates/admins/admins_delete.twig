@@ -1,0 +1,25 @@
+{% extends "admins/admins_main.twig" %}
+{% block title %}Удаление администратора{% endblock title %}
+{% block right_column %}
+<div class="col-md-6">
+
+<ol id="breadcrumb">
+  <li><a href="/diploma/admins/">Административный раздел</a></li>
+  <li><a href="/diploma/user/list/">Управление администраторами</a></li>
+  <li class="current"><a href="">Удаление админа</a></li> 
+</ol>
+<br>
+
+{% if message is not empty %}
+	<h4>{{message}}</h4>
+{% else %}
+<h4>Вы действительно хотите удалить администратора # {{id}} ?</h4>
+	<br>
+	<form method="POST">
+		<input type="submit" name="submit" value="Удалить" class="btn btn-danger">
+		<a class="btn btn-primary" href="/diploma/user/list" role="button">Отменить</a>
+	</form>
+{% endif %}
+
+</div>
+{% endblock right_column %}

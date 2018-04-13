@@ -1,0 +1,41 @@
+{% extends "admins/admins_main.twig" %}
+
+{% block right_column %}
+<div class="col-md-6">
+<ol id="breadcrumb">
+  <li><a href="/diploma/admins/">Административный раздел</a></li>
+  <li class="current"><a href="">Управление категориями</a></li>
+</ol>
+<br>
+	<a href="/diploma/categories/create" class="btn btn-primary">Создать категорию</a>
+<br><br>
+<table class="table table-hover table-bordered">
+	<thead>
+		<tr>
+			<th class="success">Id #</th>
+			<th class="success">Название категории</th>
+			<th class="info">Всего вопросов</th>
+			<th class="info">Видны</th>
+			<th class="info">Скрыты</th>
+			<th class="info">Без ответа</th>
+			<th class="success">Действие</th>
+		</tr>
+	</thead>
+	<tbody>
+
+	{% for category in categories %}
+		<tr>
+			<td>{{category.id}}</td>
+			<td>{{category.name}}</td>
+			<td>{{category.total}}</td>
+			<td>{{category.published}}</td>
+			<td>{{category.closed}}</td>
+			<td>{{category.no_answer}}</td>
+			<td><a href="/diploma/categories/delete/{{category.id}}">удалить категорию</a></td>
+		</tr>
+	{% endfor %}
+
+	</tbody>
+</table>
+</div>
+{% endblock right_column %}

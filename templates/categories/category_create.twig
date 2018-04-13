@@ -1,0 +1,27 @@
+{% extends "admins/admins_main.twig" %}
+{% block title %}Создание категории{% endblock title %}
+{% block right_column %}
+<div class="col-md-6">
+
+<ol id="breadcrumb">
+  <li><a href="/diploma/admins/">Административный раздел</a></li>
+  <li><a href="/diploma/categories/list/">Управление категориями</a></li>
+  <li class="current"><a href="">Создание категории</a></li> 
+</ol>
+<br>
+
+<h4>Создать новую категорию</h4>
+  {% for message in messages %}
+    <h5><font color=blue>{{message}}</font></h5>
+  {% endfor %}
+	<br>
+	<form class="form-inline" method="POST" action="">
+		<div class="form-group">
+			<label>Название новой категории</label>&nbsp;
+			<input type="text" class="form-control" name="name" maxlength="30" placeholder="Введите название" value="" required> &nbsp;
+		</div>
+			<button type="submit" class="btn btn-primary" name="submit">Создать</button>
+	</form>
+
+</div>
+{% endblock right_column %}

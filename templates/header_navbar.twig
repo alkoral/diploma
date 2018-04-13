@@ -18,16 +18,16 @@
         <div class="collapse navbar-collapse" id="navbar-main">
           <!-- Содержимое основной части -->
     			<ul class="nav navbar-nav">
-    				<li><a href="faqs">Все вопросы и ответы</a></li>
-    				<li><a href="add">Задать вопрос</a></li>
-            <li><a href="admins">Раздел администратора</a></li>
+    				<li><a href="/diploma/faqs">Все вопросы и ответы</a></li>
+    				<li><a href="/diploma/add">Задать вопрос</a></li>
+            <li><a href="/diploma/admins">Раздел администратора</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             {% if session.admin %}
-                <p class="navbar-text">Привет, <strong>{{session.admin_name}}</strong>!</p>
-                <li><a href='logout'>Выйти</a></li>
+                <p class="navbar-text">Привет, <strong>{{session.admin_name|capitalize}}</strong>!</p>
+                <li><a href='/diploma/logout'>Выйти</a></li>
     					{% else %}
-                <li><a href='login'>Войти</a></li>
+                <li><a href='/diploma/login'>Войти</a></li>
     					{% endif %}
           </ul>
         </div>

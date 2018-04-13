@@ -16,6 +16,6 @@ Class DbModel
 
 		$db = new PDO("mysql:host={$params['host']};dbname={$params['dbname']};charset=utf8", $params['user'], $params['password']);
 
-			return $db;
+		return $db;
 	}
 }

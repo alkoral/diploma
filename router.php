@@ -10,7 +10,7 @@ class Router
 		$this->routes = include($routesPath);
 	}
 
-/* Returns request string */
+// Получаем строку URI
 	private function getURI()
 	{
 		if (!empty($_SERVER['REQUEST_URI'])) {
@@ -18,15 +18,16 @@ class Router
 		}
 	}
 
+// Проверяем наличие контроллеров и экшнз и вызываем их
 	public function run()
 	{
 
-        /* Получаем строку запроса */
+    // Получаем строку запроса
 		$uri = $this->getURI();
 
-		/* Проверяем наличие такого запроса в routes.php */
+		// Проверяем наличие такого запроса в routes.php
 		foreach ($this->routes as $uriPattern => $path) {
-			/* Сравниваем $uriPattern и $uri. ~ служит для исключения, например, слэша в тексте запроса
+			/* Сравниваем $uriPattern и $uri. нужно для исключения, например, слэша в тексте запроса
 			$path будет выводить, например, diploma/admins/list */
 			if(preg_match("~$uriPattern~", $uri)) {
 
@@ -38,15 +39,15 @@ class Router
 				$internalRoute = preg_replace("~$uriPattern~", $path, $uri);
 //				echo '<br>Нужно сформулировать, как будет выглядеть URL к конкретному вопросу-ответу: <b>'.$internalRoute.'</b><br><br>';
 
-				/*Определяем, какой контроллер и action обрабатывают запрос*/
+				// Определяем, какой контроллер и action обрабатывают запрос
 				$segments = explode("/", $internalRoute);
 				array_splice($segments, 0, 1); // удаляем из массива первый элемент - название папки diploma. Вообще-то с этим нужно разобраться!!!
 
-				/* Получаем имя контроллера и поднимаем первую букву в его названии*/
+				// Получаем имя контроллера и поднимаем первую букву в его названии
 				$controllerName = array_shift($segments).'Controller';
 				$controllerName = ucfirst($controllerName);
 
-				/* Получаем имя экшн и поднимаем первую букву в его названии*/
+				// Получаем имя экшн и поднимаем первую букву в его названии
 				$actionName = 'action'.ucfirst(array_shift($segments));
 
 //				echo 'controller name: <b>'.$controllerName.'</b><br>';
@@ -55,16 +56,15 @@ class Router
 /*				echo "<pre>";
 				print_r($parameters);
 */
-				/* Подключаем файл класса-контроллера */
+				// Подключаем файл класса-контроллера
 				$controllerFile = ROOT . '/controllers/' .$controllerName. '.php';
 				if (file_exists($controllerFile)) {
 					include_once($controllerFile);
 				}
-				/* Создаем объект, вызываем метод (т.е. action) */
+				// Создаем новый объект, вызываем метод (т.е. action)
 				$controllerObject = new $controllerName;
 				$result = call_user_func_array(array($controllerObject, $actionName), $parameters);
 
-//				$result = $controllerObject->$actionName($parameters);
 				if ($result != null) {
 					break;
 				}

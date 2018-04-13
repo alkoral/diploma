@@ -1,0 +1,25 @@
+{% extends "admins/admins_main.twig" %}
+{% block title %}Удаление вопроса{% endblock title %}
+{% block right_column %}
+<div class="col-md-6">
+
+<ol id="breadcrumb">
+  <li><a href="/diploma/admins/">Административный раздел</a></li>
+  <li><a href="/diploma/topics/list/">Управление вопросами</a></li>
+  <li class="current"><a href="">Удаление вопроса</a></li> 
+</ol>
+<br>
+
+{% if num is not empty %}
+	<h4>{{num}} вопрос успешно удален</h4>
+{% else %}
+<h4>Вы действительно хотите удалить вопрос # {{id}} ?</h4>
+	<br>
+	<form method="POST">
+		<input type="submit" name="submit" value="Удалить" class="btn btn-danger">
+		<a class="btn btn-primary" href="/diploma/topics/list" role="button">Отменить</a>
+	</form>
+{% endif %}
+
+</div>
+{% endblock right_column %}

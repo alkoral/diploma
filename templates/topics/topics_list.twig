@@ -1,0 +1,64 @@
+{% extends "admins/admins_main.twig" %}
+
+{% block right_column %}
+<div class="col-md-9">
+<ol id="breadcrumb">
+  <li><a href="/diploma/admins/">Административный раздел</a></li>
+  <li class="current"><a href="">Управление вопросами</a></li>
+</ol>
+
+	<form role="form" method="post" action="" class="form-inline">
+		<div class="form-group">
+			<label>Вопросы в категории:</label>&nbsp;&nbsp;
+			<select class="form-control" name="filter">
+				<option value="IS NOT NULL">Все категории</option>
+				{% for category in categories %}
+					<option value=" = {{category.id}}">{{category.name}}</option>
+				{% endfor %}
+			</select>&nbsp;&nbsp;
+			<label>Вопросы без ответов</label>&nbsp;&nbsp;
+			<input type='checkbox' name='check' value='AND t1.answer IS NULL'>&nbsp;&nbsp;
+			<button type="submit" name="submit" class="btn btn-primary">Выбор</button>&nbsp;&nbsp;
+			<a class="btn btn-danger" href="" role="button">Сброс</a>
+		</div>
+	</form>
+
+<br><br>
+<table class="table table-hover table-bordered">
+	<thead>
+		<tr>
+			<th class="success">Id #</th>
+			<th class="success">Категория</th>
+			<th class="success">Вопрос</th>
+			<th class="success">Автор</th>
+			<th class="success">Вопрос задан</th>
+			<th class="info">Ответ</th>
+			<th class="info">Статус</th>
+			<th class="info">Действие</th>
+		</tr>
+	</thead>
+	<tbody>
+
+	{% for topic in topics %}
+		<tr>
+			<td>{{topic.id}}</td>
+			<td>{{topic.cat_name}}</td>
+			<td>{{topic.question}}</td>
+			<td>{{topic.author}}</td>
+			<td>{{topic.date|date("M. d, Y | H:i:s")}}</td>
+				{% if topic.answer is empty %}
+					<td><font color=red>нет</font></td>
+				{% else %}
+					<td><font color=blue>есть</font></td>
+				{% endif %}
+			<td>{{topic.stat_name}}</td>
+			<td><a href="/diploma/topics/update/{{topic.id}}">изменить</a> &nbsp;|&nbsp; 
+					<a href="/diploma/topics/delete/{{topic.id}}">удалить</a>
+			</td>
+		</tr>
+	{% endfor %}
+
+	</tbody>
+</table>
+</div>
+{% endblock right_column %}

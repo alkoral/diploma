@@ -1,90 +1,96 @@
 <?php
-
-class User    // Модель для управления админами
+/**
+ * Класс User - Модель для управления админами
+ */
+class User
 {
 
-	public static function getUserList() // Метод для получения массива админов
-	{
-
-		$db = DbModel::getConnection();		// Подключаемся к базе данных
-
-		$userList = array();
-		$sql = "SELECT id, login, password FROM admins";
-		$result = $db->query($sql);
-		$userList = $result->fetchAll(PDO::FETCH_ASSOC);
-		return $userList;
-	}
-
-// ================================================================================================================= //
-
-  public static function deleteUserById($id)
+  /**
+   * getUserList - Метод для получения массива админов
+   * @return array - массив всех админов
+  */
+  public static function getUserList()
   {
-
-      $db = DbModel::getConnection();		// Подключаемся к базе данных
-
-      $sql = "DELETE FROM admins WHERE id = :id";
-
-      $result = $db->prepare($sql);
-      $result->bindParam(':id', $id, PDO::PARAM_INT);
-      $result->execute();
-      return true;
+    $sql = "SELECT id, login, password FROM admins";
+    $result = DbModel::getConnection()->query($sql);
+    $userList = $result->fetchAll(PDO::FETCH_ASSOC);
+    return $userList;
   }
 
 // ================================================================================================================= //
 
-	public static function getUserCreate($options) // Метод для создания нового админа
-	{
-		$db = DbModel::getConnection(); // Подключаемся к базе данных
+  /**
+   * deleteUserById - Метод для удаления админа по его id
+   * @param  integer $id - идентификатор админа
+  */
+  public static function deleteUserById($id)
+  {
+    $sql = "DELETE FROM admins WHERE id = :id";
+    $result = DbModel::getConnection()->prepare($sql);
+    $result->bindParam(':id', $id, PDO::PARAM_INT);
+    $result->execute();
+    return true;
+  }
 
-    $sql = "SELECT COUNT(*) FROM admins WHERE login = :login"; // проверяем, есть ли админ с таким логином в базе
+// ================================================================================================================= //
 
-    $result = $db->prepare($sql);
+  /**
+   * getUserCreate - Метод для создания нового админа
+   * @param  array $options - массив данных нового админа
+  */
+  public static function getUserCreate($options)
+  {
+    /* Проверяем, есть ли админ с таким логином в базе */
+    $sql = "SELECT COUNT(*) FROM admins WHERE login = :login";
+    $result = DbModel::getConnection()->prepare($sql);
     $result->bindParam(':login', $options['login'], PDO::PARAM_STR);
     $result->execute();
 
-    if ($result->fetchColumn()) {		// При обнаружении админа с таким же лоигном сообщаем об этом контроллеру
-        return false;
-      }
-      else {
-	    $sql = "INSERT INTO admins (login, password) VALUES (:login, :password)"; // Вносим админа с уникальным логином в базу
-
-	    $result = $db->prepare($sql);
-	    $result->bindParam(':login', $options['login'], PDO::PARAM_STR);
-	    $result->bindParam(':password', $options['password'], PDO::PARAM_STR);
-	    $result->execute();
-	   	return true;
-		}
-	}	
-
-// ================================================================================================================= //
-
-    public static function getUserById($id) // Метод для показа конкретного админа по его id
-    {
-
-      $db = DbModel::getConnection(); // Подключаемся к базе данных
-
-      $sql = "SELECT id, login, password FROM admins WHERE id = :id";
-
-      $result = $db->prepare($sql);
-      $result->bindParam(':id', $id, PDO::PARAM_INT);
-      $result->execute();
-      return $result;
-    }
-
-// ================================================================================================================= //
-
-    public static function UpdateUserById($id, $password)		// Метод для изменения пароля конкретного админа
-    {
-
-      $db = DbModel::getConnection(); // Подключаемся к базе данных
-
-      $sql = "UPDATE admins SET password = :password WHERE id = :id";
-
-      $result = $db->prepare($sql);
-      $result->bindParam(':id', $id, PDO::PARAM_INT);
-      $result->bindParam(':password', $password, PDO::PARAM_STR);
+    /* Если есть админ с таким же логином, сообщаем об этом контроллеру, если нет - заносим в базу */
+    if ($result->fetchColumn()) {
+      return false;
+      } else {
+      $sql = "INSERT INTO admins (login, password) VALUES (:login, :password)";
+      $result = DbModel::getConnection()->prepare($sql);
+      $result->bindParam(':login', $options['login'], PDO::PARAM_STR);
+      $result->bindParam(':password', $options['password'], PDO::PARAM_STR);
       $result->execute();
       return true;
     }
+  } 
+
+// ================================================================================================================= //
+
+  /**
+   * getUserById - Метод для показа конкретного админа по его id
+   * @param  integer $id - идентификатор админа
+   * @return array - массив данных админа
+  */
+  public static function getUserById($id)
+  {
+    $sql = "SELECT id, login, password FROM admins WHERE id = :id";
+    $result = DbModel::getConnection()->prepare($sql);
+    $result->bindParam(':id', $id, PDO::PARAM_INT);
+    $result->execute();
+    return $result;
+  }
+
+// ================================================================================================================= //
+
+  /**
+   * updateUserById - Метод для изменения пароля конкретного админа
+   * @param  integer $id - идентификатор админа
+   * @param  string $password - новый пароль
+   * @return array - должен быть массив (тут - одно значение)
+  */
+  public static function updateUserById($id, $password)
+  {
+    $sql = "UPDATE admins SET password = :password WHERE id = :id";
+    $result = DbModel::getConnection()->prepare($sql);
+    $result->bindParam(':id', $id, PDO::PARAM_INT);
+    $result->bindParam(':password', $password, PDO::PARAM_STR);
+    $result->execute();
+    return true;
+  }
 
 }

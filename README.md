@@ -9,7 +9,6 @@
 
 
 Посмотреть работоспособность всего проекта можно тут:
-
 http://korzun.globalreservation.com/diploma/
 
 Инструкция по установке и первому запуску
@@ -21,6 +20,5 @@ http://korzun.globalreservation.com/diploma/
 4) настроить подключение к базе данных в файле db_params.php (находится в папке config).
 
 Вызов сервиса производится по адресу: site_name/diploma
-
 (например, http://localhost/diploma)
 

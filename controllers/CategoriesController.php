@@ -1,74 +1,93 @@
 <?php
-include_once ROOT. '/models/AdminsModel.php';
+/**
+ * Подключаем файлы с необходимыми классами
+ */
 include_once ROOT. '/models/CategoriesModel.php';
+include_once ROOT. '/controllers/BaseController.php';
 
-class CategoriesController		// Контроллер для управления категориями в админке
+/**
+ * Класс CategoriesController - Контроллер для управления категориями,
+ * наследует класс Base для корректного вывода шаблонов страниц
+ */
+class CategoriesController extends Base
 {
-	
-	public function actionList() // Метод для вывода массива всех категорий
-	{
+  /**
+   * __construct - служит для проверки авторизации админа
+   */
+  function __construct()
+  {
+    parent::__construct();
+    Admins::checkAdminLogged();
+   }
 
-		Admins::checkAdminLogged();		// Проверяем, авторизован ли админ
+  /**
+   * actionList - Метод для вывода массива всех категорий
+   * @var  array $categoriesList - массив всех категорий из базы
+  */
+  public function actionList()
+  {
+    $categoriesList = Categories::getCategoriesList();
 
-		$CategoriesList = array();
-		$CategoriesList = Categories::getCategoriesList(); // Получаем список всех категорий
+    /* Подключаем внешний вид и передаем параметры для шаблона */
+    $template = $this->twig->loadTemplate('categories/category_list.twig');
+    echo $template->render(array('categories'=>$categoriesList));
 
-		include ROOT.'/config/config.php';
-		$template = $twig->loadTemplate('categories/category_list.twig');
-		echo $template->render(array('categories'=>$CategoriesList)); // Передаем список категорий на соответствующую страницу
-		return true;
-	}
-
-// ================================================================================================================= //
-
-  public function actionCreate()		// Метод для создания новой категории
-    {
-
-	    $success = false;
-
-			Admins::checkAdminLogged();		// Проверяем, авторизован ли админ
-
-	    if (isset($_POST['submit'])) {		// Если форма отправлена, получаем данные из формы
-        $options['name'] = $_POST['name'];
-
-        $test=Categories::getCategoryCreate($options);	// Создаем новую категорию с уникальным названием
-
-		    if ($test) {
-		    	$success[]="Новая категория ".$_POST['name']." успешно внесена в базу данных";
-		    }
-		    	else {
-		    		$success[]="Категоря с названием ".$_POST['name']." уже есть в базе данных";
-		    	}
-      }
-
-      include ROOT.'/config/config.php';
-      $template = $twig->loadTemplate('categories/category_create.twig');
-      echo $template->render(array('messages'=>$success));
-      return true;
-    }
+    return true;
+  }
 
 // ================================================================================================================= //
 
-  public function actionDelete($id) // Метод для удаления категории и всех вопросов в ней
-    {
+  /**
+   * actionCreate - Метод для создания новой категории
+  */
+  public function actionCreate()
+  {
+    $success = false;
 
-    	$num=false;
+    /* Если форма отправлена, получаем данные из формы и передаем нужному методу */
+    if (isset($_POST['submit'])) {
+      $options['name'] = $_POST['name'];
 
-			Admins::checkAdminLogged();		// Проверяем, авторизован ли админ
+      /* Создаем новую категорию с уникальным названием */
+      $test = Categories::getCategoryCreate($options);
 
-	    if (isset($_POST['submit'])) {	// Если форма отправлена, удаляем категорию
-
-	      $num=Categories::deleteCategoryById($id);		// Удаляем категорию с вопросами в ней
-	      $num=$num-1;		// Получаем кол-во удаленных вопросов в категории. 
-	      	If($num<0) {	// Если вопросов не было, в сообщении будет показан 0.
-	      		$num='0';
-	      	}
-	    }
-
-	    include ROOT.'/config/config.php';
-	    $template = $twig->loadTemplate('categories/category_delete.twig');
-	    echo $template->render(array('id'=>$id, 'num'=>$num));
-	    return true;
+      if ($test) {
+        $success[] = "Новая категория ".$_POST['name']." успешно внесена в базу данных";
+      } else {
+        $success[] = "Категория с названием ".$_POST['name']." уже есть в базе данных";
+        }
     }
+
+    /* Подключаем внешний вид и передаем параметры для шаблона */
+    $template = $this->twig->loadTemplate('categories/category_create.twig');
+    echo $template->render(array('messages'=>$success));
+
+    return true;
+  }
+
+// ================================================================================================================= //
+
+  /**
+   * actionDelete - Метод для удаления категории и всех вопросов в ней
+   * @param  integer $id - идентификатор категории, подлежащей удалению
+  */
+  public function actionDelete($id)
+  {
+    $num = false;
+    /* Если форма отправлена, удаляем категорию */
+    if (isset($_POST['submit'])) {
+      $num = Categories::deleteCategoryById($id);
+      $num = $num-1;    // Получаем кол-во удаленных вопросов в категории. 
+        if ($num < 0) { // Если вопросов не было, в сообщении будет показан 0.
+          $num = '0';
+        }
+    }
+
+  /* Подключаем внешний вид и передаем параметры для шаблона */
+  $template = $this->twig->loadTemplate('categories/category_delete.twig');
+  echo $template->render(array('id'=>$id, 'num'=>$num));
+
+  return true;
+  }
 
 }

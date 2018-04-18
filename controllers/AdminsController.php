@@ -1,61 +1,68 @@
 <?php
+include_once ROOT. '/controllers/BaseController.php';
 
-include_once ROOT. '/models/AdminsModel.php';
-
-class AdminsController // Контроллер для авторизации админа, для входа в админ. раздел и выхода из него
+/**
+ * Класс AdminsController - Контроллер для авторизации админа, для входа в админ. раздел и выхода из него,
+ * наследует класс Base для корректного вывода шаблонов страниц
+ */
+class AdminsController extends Base
 {
-
-	public function actionIndex() // Метод для входа на главную страницу в админ. разделе
+  /**
+   * actionIndex - Метод для входа на главную страницу в админ. разделе
+   */
+	public function actionIndex()
 	{
-		$adminId = Admins::checkAdminLogged();
-		// Если админ есть в сессии, то он направляется на главную страницу админ. раздела
-		// Если нет админа, юзер направляется на страницу login (за это отвечает checkAdminLogged)
+    /* Проверка на авторизацию админа */
+		Admins::checkAdminLogged();
 
-		include ROOT.'/config/config.php';
-		$template = $twig->loadTemplate('admins/admins_main.twig');
-		echo $template->render(array());
+    /* Подключаем внешний вид страницы */
+    $template = $this->twig->loadTemplate('admins/admins_main.twig');
+    echo $template->render(array());
 
 		return true;
 	}
 
 // ================================================================================================================= //
 
-	public function actionLogin() // Метод для авторизации и входа в админ. раздел сайта
+  /**
+   * actionLogin - Метод для авторизации и входа в админ. раздел сайта
+   */
+	public function actionLogin()
 	{
-    // Переменные для формы
     $login = false;
     $password = false;
     $errors = false;
 
-    if (isset($_POST['submit'])) {    // Если форма отправлена...
-    // ...получаем данные из формы и передаем нужному методу
+    /* Если форма отправлена, получаем данные из формы и передаем нужному методу */
+    if (isset($_POST['submit'])) {
       $login = $_POST['login'];
       $password = $_POST['password'];
 
-      // Проверяем, существует ли пользователь
-      $adminId = Admins::checkAdminData($login, $password); // получает id админа из $admin['id']
-
+      /**
+       * Проверка на существование админа в базе с получением его id. 
+       * Если данные правильные, запоминаем id пользователя в сессии и направляем на главную страницу админки
+      */
+      $adminId = Admins::checkAdminData($login, $password);
       if ($adminId == false) {
-        // Если данные неправильные, показываем ошибку
         $errors[] = 'Вы ввели неверные данные';
-
       } else {
-          // Если данные правильные, запоминаем id пользователя в сессии и направляем на главную страницу админки
       	Admins::getAdminSession($adminId);
         header("Location: /diploma/admins");
 	}
 }
-
-    include ROOT.'/config/config.php';
-    $template = $twig->loadTemplate('admins/login.twig');
-    echo $template->render(array('errors'=>$errors)); // выводим маассив ошибок на странице входа
+    /* Подключаем внешний вид страницы */
+    $template = $this->twig->loadTemplate('admins/login.twig');
+    echo $template->render(array('errors'=>$errors));
 
 		return true;
 	}
 
 // ================================================================================================================= //
 
-  public function actionLogout() // Метод для удаления админа из сессии
+  /**
+   * actionLogout - Метод для удаления админа из сессии
+   */
+  public function actionLogout()
     {
       unset($_SESSION["admin"]);
       unset($_SESSION["admin_name"]);        

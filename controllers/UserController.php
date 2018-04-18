@@ -1,99 +1,123 @@
 <?php
+/**
+ * Подключаем файлы с необходимыми классами
+ */
 include_once ROOT. '/models/UserModel.php';
-include_once ROOT. '/models/AdminsModel.php';
+include_once ROOT. '/controllers/BaseController.php';
 
-class UserController // Контроллер для управления администраторами в админке
+/**
+ * Класс UserController - Контроллер для управления администраторами в админке,
+ * наследует класс Base для корректного вывода шаблонов страниц
+ */
+class UserController extends Base
 {
-
-	public function actionList() // Метод для вывода админов
-	{
-		Admins::checkAdminLogged(); // Проверяем, авторизован ли админ
-
-		$userList = array();
-		$userList = User::getUserList(); // выводится массив всех админов из базы
-
-    include ROOT.'/config/config.php';
-    $template = $twig->loadTemplate('admins/admins_list.twig');
-    echo $template->render(array('users'=>$userList)); // передаем список админов на страницу вывода
-    return true;
-	}
-
-// ================================================================================================================= //
-
-  public function actionDelete($id) // Метод для удаления из базы конкретного админа
+  /**
+   * __construct - служит для проверки авторизации админа
+   */
+  function __construct()
   {
+    parent::__construct();
+    Admins::checkAdminLogged();
+   }
 
-    $success = false;
+  /**
+   * actionList - Метод для вывода админов
+   * @var  array $userList - массив всех админов из базы
+  */
+  public function actionList()
+  {
+    $userList = User::getUserList();
 
-  	Admins::checkAdminLogged();   // Проверяем, авторизован ли админ
+    /* Подключаем внешний вид и передаем параметры для шаблона */
+    $template = $this->twig->loadTemplate('admins/admins_list.twig');
+    echo $template->render(array('users'=>$userList));
 
-      if (isset($_POST['submit'])) {    // Если форма отправлена, удаляем конкретного админа из базы
-        $test=User::deleteUserById($id);
-        If($test) {
-          $success="Администратор # $id успешно удален из базы данных";   // строковое сообщение
-        }
-      }
-
-      include ROOT.'/config/config.php';
-      $template = $twig->loadTemplate('admins/admins_delete.twig');
-      echo $template->render(array('id'=>$id, 'message'=>$success)); // передаем id админа на страницу удаления
-      return true;
+    return true;
   }
 
 // ================================================================================================================= //
 
-  public function actionCreate()  // Метод для создания нового админа
-    {
+  /**
+   * actionDelete - Метод для удаления из базы конкретного админа
+   * @param  integer $id - идентификатор админа, подлежащего удалению
+  */
+  public function actionDelete($id)
+  {
+    $success = false;
 
-    	$success = false;
-
-    	Admins::checkAdminLogged();    // Проверяем, авторизован ли админ
-
+      /* Если форма отправлена, удаляем конкретного админа из базы */
       if (isset($_POST['submit'])) {
-        // Если форма отправлена, получаем данные из формы
-        $options['login'] = $_POST['login'];
-        $options['password'] = $_POST['password'];
-
-        $id=User::getUserCreate($options);   // заносим нового админа в базу
-  	    if ($id) {
-  	    	$success[]="Новый админ ".$_POST['login']." успешно внесен в базу данных. Хотите создать еще одного админа?";
-  	    }
-  	    	else {
-  	    		$success[]="Админ с логином ".$_POST['login']." уже есть в базе данных. Выберете другой логин.";
-  	    	}
+        $test = User::deleteUserById($id);
+        if ($test) {
+          $success="Администратор # $id успешно удален из базы данных";
+        }
       }
-        include ROOT.'/config/config.php';
-        $template = $twig->loadTemplate('admins/admins_create.twig');
-        echo $template->render(array('messages'=>$success));
-        return true;
-    }
+
+    /* Подключаем внешний вид и передаем параметры для шаблона */
+    $template = $this->twig->loadTemplate('admins/admins_delete.twig');
+    echo $template->render(array('id'=>$id, 'message'=>$success));
+
+    return true;
+  }
 
 // ================================================================================================================= //
 
-  public function actionUpdate($id) // Метод для изменения пароля админа
+  /**
+   * actionCreate - Метод для создания нового админа
+  */
+  public function actionCreate()
   {
-  	$success = false;
+    $success = false;
 
-    Admins::checkAdminLogged();   // Проверяем, авторизован ли админ
+    /* Если форма отправлена, получаем данные из формы */
+    if (isset($_POST['submit'])) {
+      $options['login'] = $_POST['login'];
+      $options['password'] = $_POST['password'];
 
-    // Получаем данные о конкретном админе
+      /* заносим нового админа в базу */
+      $id = User::getUserCreate($options);
+      if ($id) {
+        $success[] = "Новый админ ".$_POST['login']." успешно внесен в базу данных. Хотите создать еще одного админа?";
+      } else {
+        $success[] = "Админ с логином ".$_POST['login']." уже есть в базе данных. Выберете другой логин.";
+        }
+      }
+
+    /* Подключаем внешний вид и передаем параметры для шаблона */
+    $template = $this->twig->loadTemplate('admins/admins_create.twig');
+    echo $template->render(array('messages'=>$success));
+
+    return true;
+  }
+
+// ================================================================================================================= //
+
+  /**
+   * actionUpdate - Метод для изменения пароля админа
+   * @param  integer $id - идентификатор админа, подлежащего редактированию
+   * @var  array $user - массив сведений о конкретном админе
+  */
+  public function actionUpdate($id)
+  {
+    $success = false;
     $user = User::getUserById($id);
 
+    /* Если форма отправлена, получаем данные из формы */
     if (isset($_POST['submit'])) {
-      // Если форма отправлена, получаем данные из формы
       $id = $_POST['id'];
       $password = $_POST['password'];
-
-      $test=User::updateUserById($id, $password);   // Сохраняем новый пароль
+      /* Сохраняем новый пароль */
+      $test = User::updateUserById($id, $password);
       if ($test) {
-      	$success[]="Пароль для админа ".$_POST['login']." успешно изменен";
+        $success[] = "Пароль для админа ".$_POST['login']." успешно изменен";
       }
     }
 
-      include ROOT.'/config/config.php';
-      $template = $twig->loadTemplate('admins/admins_update.twig');
-      echo $template->render(array('users'=>$user, 'messages'=>$success)); // выводим на странице апдейта данные админа и сообщение об успешном обновлении
-      return true;
+    /* Подключаем внешний вид и передаем параметры для шаблона */
+    $template = $this->twig->loadTemplate('admins/admins_update.twig');
+    echo $template->render(array('users'=>$user, 'messages'=>$success));
+
+    return true;
   }
 
 }

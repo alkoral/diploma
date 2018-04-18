@@ -1,60 +1,66 @@
 <?php
-
+/**
+ * Подключаем файлы с необходимыми классами
+ */
 include_once ROOT. '/models/FaqsModel.php';
 include_once ROOT. '/models/CategoriesModel.php';
+include_once ROOT. '/controllers/BaseController.php';
 
-class FaqsController // Контроллер для вопрос-ответов в общедоступной части сайта
+/**
+ * Класс FaqsController - Контроллер для вопросов-ответов в общедоступной части сайта,
+ * наследует класс Base для корректного вывода шаблонов страниц
+ */
+class FaqsController extends Base
 {
+  /**
+   * actionIndex - Метод для показа всех вопросос-ответов
+   * @var  array $categoriesList - массив всех категорий из базы
+   * @var  array $faqsList - массив всех вопрос-ответов из базы
+   * @var  integer $firstCategory - id первой категории в списке категорий
+  */
+  public function actionIndex()
+  {
+    $categoriesList = Categories::getCategoriesList();
+    $faqsList = Faqs::getFaqsList();
+    $firstCategory = Categories::getFirstCategory();
 
-	public function actionIndex() // Метод для показа всех вопросос-ответов
-	{
+  /* Подключаем внешний вид и передаем параметры для шаблона */
+    $template = $this->twig->loadTemplate('faqs/faqs_main.twig');
+    echo $template->render(array('categories'=>$categoriesList, 'topics'=>$faqsList, 'first'=>$firstCategory));
 
-		$CategoriesList = array();
-		$CategoriesList = Categories::getCategoriesList(); // выводится массив всех категорий из базы
-
-		$faqsList = array();
-		$faqsList = Faqs::getFaqsList(); // выводится массив всех вопрос-ответов из базы
-
-		$firstCategory = Categories::getFirstCategory(); // используется для активизации панелей в bootstrap на главной странице
-
-		include ROOT.'/config/config.php';
-
-			//$template = $twig->loadTemplate('faqs/faqs_main.twig');
-			//echo $template->render(array('categories'=>$CategoriesList, 'topics'=>$faqsList));
-		echo $twig->render('faqs/faqs_main.twig', array('categories'=>$CategoriesList, 'topics'=>$faqsList, 'first'=>$firstCategory));
-
-		return true;
-	}
+    return true;
+  }
 
 // ================================================================================================================= //
 
-	public function actionAdd() // Метод для добавления в базу нового вопроса
-	{
+  /**
+   * actionAdd - Метод для добавления в базу нового вопроса
+   * @var  array $categoriesList - массив всех категорий из базы для выпадающего списка
+   */
+  public function actionAdd()
+  {
+    $categoriesList = Categories::getCategoriesList();
+    $success[] = false;
 
-		$CategoriesList = array();
-		$CategoriesList = Categories::getCategoriesList(); // получаем массив всех категорий из базы для выпадающего списка
-	  
-	  $success = false;
-
-    if (isset($_POST['submit'])) {		// Если форма отправлена...
-      // ...получаем данные из формы и передаем нужному методу
+    /* Если форма отправлена, получаем данные из формы и передаем нужному методу */
+    if (isset($_POST['submit'])) {
       $options['author'] = $_POST['author'];
       $options['email'] = $_POST['email'];
       $options['category_id'] = $_POST['category_id'];
       $options['question'] = $_POST['question'];
-	    
-	    $id = Faqs::getFaqsAdd($options);  // Вуаля, новый вопрос заносится в базу
-		    if ($id) {
-		    	$success[]="Ваш вопрос отправлен на рассмотрение. Если хотите, задайте новый вопрос.";
-		    }
-//			header("Location: /diploma/faqs");
-		}
+      
+      /* Вуаля, новый вопрос заносится в базу */
+      $id = Faqs::getFaqsAdd($options);
+        if ($id) {
+          $success[] = "Ваш вопрос отправлен на рассмотрение. Если хотите, задайте новый вопрос.";
+        }
+    }
 
-		include ROOT.'/config/config.php';
-		/*$template = $twig->loadTemplate('faqs/faqs_add_question.twig');
-		echo $template->render(array('categories'=>$CategoriesList, 'messages'=>$success));*/
-		echo $twig->render('faqs/faqs_add_question.twig', array('categories'=>$CategoriesList, 'messages'=>$success));
-		return true;
-	}
+    /* Подключаем внешний вид и передаем параметры для шаблона */
+    $template = $this->twig->loadTemplate('faqs/faqs_add_question.twig');
+    echo $template->render(array('categories'=>$categoriesList, 'messages'=>$success));
+
+    return true;
+  }
 
 }

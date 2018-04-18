@@ -1,5 +1,6 @@
 <?php
 return array(
+	'^([^\/]+)?$' => 'faqs/faqs/index/', // вывод всего массива вопросов-ответов из базы с главной страницы / actionIndex in FaqsController
 	'index.php' => 'faqs/index', // вывод всего массива вопросов-ответов из базы / actionIndex in FaqsController
 
 	'faqs' => 'faqs/index', // вывод всего массива вопросов-ответов из базы / actionIndex in FaqsController

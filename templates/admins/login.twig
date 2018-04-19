@@ -4,35 +4,35 @@
 {% block content %}
 
 <div class="section">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-6">
-				<h1>Вход в раздел администратора</h1>
-					{% if errors is not empty %}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h1>Вход в раздел администратора</h1>
+          {% if errors is not empty %}
             <ul>
-	            {% for error in errors %}
-	              <li> <font color=red>{{error}}</font> </li>
-	            {% endfor %}
+              {% for error in errors %}
+                <li> <font color=red>{{error}}</font> </li>
+              {% endfor %}
             </ul>
-					{% endif %}
+          {% endif %}
 
-				<form role="form" method="post" action="login">
+        <form role="form" method="post" action="login">
 
-					<div class="form-group">
-						<label for="login">Ваш логин</label>
-						<input type="text" class="form-control" name="login" placeholder="Введите логин" value="" required>
-					</div>
+          <div class="form-group">
+            <label for="login">Ваш логин</label>
+            <input type="text" class="form-control" name="login" placeholder="Введите логин" value="" required>
+          </div>
 
-					<div class="form-group">
-				    <label for="password">Ваш пароль</label>
-				    <input type="password" class="form-control" name="password" placeholder="Введите пароль" required>
-				  </div>
+          <div class="form-group">
+            <label for="password">Ваш пароль</label>
+            <input type="password" class="form-control" name="password" placeholder="Введите пароль" required>
+          </div>
 
-					<button type="submit" name="submit" class="btn btn-primary">Войти</button>
-				</form>
-			</div>
-		</div>
-	</div>
+          <button type="submit" name="submit" class="btn btn-primary">Войти</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 
 {% endblock content %}

@@ -9,62 +9,62 @@
     <h3>Добрый день, <font color="blue">{{session.admin_name|capitalize}}</font>! Добро пожаловать в административный раздел сайта</h3>
     <hr>
     
-  	<div class="row">
-			{% block left_column %}
-			<div class="col-md-2">
-    	<p><strong>Вам доступно управление:</strong></p>
-    	<ul>
+    <div class="row">
+      {% block left_column %}
+      <div class="col-md-2">
+      <p><strong>Вам доступно управление:</strong></p>
+      <ul>
         <li><a href="/diploma/user/list">администраторами</a></li>
         <li><a href="/diploma/categories/list">категориями</a></li>
         <li><a href="/diploma/topics/list">вопросами и ответами</a></li>
-    	</ul>
-		</div>
+      </ul>
+    </div>
 {% endblock left_column %}
 
 {% block right_column %}
 <div class="col-md-10">
-	<ol id="breadcrumb">
- 		<li class="current"><a href="/diploma/admins/">Административный раздел</a></li>
-	</ol>
-	<br>
-	<p><strong>Выполнение дипломного проекта потребовало решения следующих задач:</strong></p>
-	<ul>
-		<li>Для админов
-			<ul>
-				<li><strike>Список всех админов</strike></li>
-				<li><strike>Создание новых админов</strike></li>
-				<li><strike>Изменение паролей админов</strike></li>
-				<li><strike>Удаление админов</strike></li>
-			</ul>
-		</li>
+  <ol id="breadcrumb">
+    <li class="current"><a href="/diploma/admins/">Административный раздел</a></li>
+  </ol>
+  <br>
+  <p><strong>Выполнение дипломного проекта потребовало решения следующих задач:</strong></p>
+  <ul>
+    <li>Для админов
+      <ul>
+        <li><strike>Список всех админов</strike></li>
+        <li><strike>Создание новых админов</strike></li>
+        <li><strike>Изменение паролей админов</strike></li>
+        <li><strike>Удаление админов</strike></li>
+      </ul>
+    </li>
 
-		<li>Для категорий
-			<ul>
-				<li><strike>Список всех категорий</strike></li>
-				<li><strike>Вывод для каждой кол-ва вопросов в ней, сколько из них опубликовано и сколько без ответов</strike></li>
-				<li><strike>Создание новых категорий</strike></li>
-				<li><strike>Удаление категорий и всех вопросов в них</strike></li>
-			</ul>
-		</li>
+    <li>Для категорий
+      <ul>
+        <li><strike>Список всех категорий</strike></li>
+        <li><strike>Вывод для каждой кол-ва вопросов в ней, сколько из них опубликовано и сколько без ответов</strike></li>
+        <li><strike>Создание новых категорий</strike></li>
+        <li><strike>Удаление категорий и всех вопросов в них</strike></li>
+      </ul>
+    </li>
 
-		<li>Для вопросов
-			<ul>
-				<li><strike>Список всех вопросов по категориям с датами и статусами</strike></li>
-				<li><strike>Удаление вопросов из категории</strike></li>
-				<li><strike>Скрытие опубликованных вопросов - [ in UPDATE page ]</strike></li>
-				<li><strike>Публикация скрытых вопросов - [ in UPDATE page ]</strike></li>
-				<li><strike>Редактирование автора и тексты вопросов и ответов - [ in UPDATE page ]</strike></li>
-				<li><strike>Перемещение вопроса из одной категории в другую - [ in UPDATE page ]</strike></li>
-				<li><strike>Добавление ответов с публикацией либо с сокрытием - [ in UPDATE page ]</strike></li>
-				<li><strike>Вывод всех вопросов без ответов во всех темах по id / дате добавления и возможность их удаления</strike></li>
-			</ul>
-		</li>
-	</ul>
+    <li>Для вопросов
+      <ul>
+        <li><strike>Список всех вопросов по категориям с датами и статусами</strike></li>
+        <li><strike>Удаление вопросов из категории</strike></li>
+        <li><strike>Скрытие опубликованных вопросов - [ in UPDATE page ]</strike></li>
+        <li><strike>Публикация скрытых вопросов - [ in UPDATE page ]</strike></li>
+        <li><strike>Редактирование автора и тексты вопросов и ответов - [ in UPDATE page ]</strike></li>
+        <li><strike>Перемещение вопроса из одной категории в другую - [ in UPDATE page ]</strike></li>
+        <li><strike>Добавление ответов с публикацией либо с сокрытием - [ in UPDATE page ]</strike></li>
+        <li><strike>Вывод всех вопросов без ответов во всех темах по id / дате добавления и возможность их удаления</strike></li>
+      </ul>
+    </li>
+  </ul>
 </div>
-	{% endblock right_column %}
-			</div>
-		</div>
-	<div class="clearfix"></div>
+  {% endblock right_column %}
+      </div>
+    </div>
+  <div class="clearfix"></div>
 </section>
 
 {% endblock content %}

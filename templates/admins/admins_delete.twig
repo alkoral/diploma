@@ -11,14 +11,14 @@
 <br>
 
 {% if message is not empty %}
-	<h4>{{message}}</h4>
+  <h4>{{message}}</h4>
 {% else %}
 <h4>Вы действительно хотите удалить администратора # {{id}} ?</h4>
-	<br>
-	<form method="POST">
-		<input type="submit" name="submit" value="Удалить" class="btn btn-danger">
-		<a class="btn btn-primary" href="/diploma/user/list" role="button">Отменить</a>
-	</form>
+  <br>
+  <form method="POST">
+    <input type="submit" name="submit" value="Удалить" class="btn btn-danger">
+    <a class="btn btn-primary" href="/diploma/user/list" role="button">Отменить</a>
+  </form>
 {% endif %}
 
 </div>

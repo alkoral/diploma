@@ -14,14 +14,14 @@
   {% for message in messages %}
     <h5><font color=blue>{{message}}</font></h5>
   {% endfor %}
-	<br>
-	<form class="form-inline" method="POST" action="">
-		<div class="form-group">
-			<label>Название новой категории</label>&nbsp;
-			<input type="text" class="form-control" name="name" maxlength="30" placeholder="Введите название" value="" required> &nbsp;
-		</div>
-			<button type="submit" class="btn btn-primary" name="submit">Создать</button>
-	</form>
+  <br>
+  <form class="form-inline" method="POST" action="">
+    <div class="form-group">
+      <label>Название новой категории</label>&nbsp;
+      <input type="text" class="form-control" name="name" maxlength="30" placeholder="Введите название" value="" required> &nbsp;
+    </div>
+      <button type="submit" class="btn btn-primary" name="submit">Создать</button>
+  </form>
 
 </div>
 {% endblock right_column %}

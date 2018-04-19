@@ -10,17 +10,17 @@
 </ol>
 <br>
 {% if num is not empty %}
-	<h4>Успешно удалено:</h4>
-	<p>категорий: 1;<br>
-	вопросов:&nbsp; {{num}}.</p>
+  <h4>Успешно удалено:</h4>
+  <p>категорий: 1;<br>
+  вопросов:&nbsp; {{num}}.</p>
 {% else %}
-	<h4>Вы действительно хотите удалить категорию # {{id}} ?</h4>
-		<p><font color=red>(Внимание: будут удалены все вопросы в этой категории!)</font></p>
-  	<br>
-	<form method="POST">
-		<input type="submit" name="submit" value="Удалить" class="btn btn-danger">
-		<a class="btn btn-primary" href="/diploma/categories/list" role="button">Отменить</a>
-	</form>
+  <h4>Вы действительно хотите удалить категорию # {{id}} ?</h4>
+    <p><font color=red>(Внимание: будут удалены все вопросы в этой категории!)</font></p>
+    <br>
+  <form method="POST">
+    <input type="submit" name="submit" value="Удалить" class="btn btn-danger">
+    <a class="btn btn-primary" href="/diploma/categories/list" role="button">Отменить</a>
+  </form>
 {% endif %}
 </div>
 {% endblock right_column %}

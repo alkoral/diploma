@@ -26,15 +26,12 @@ class Topics
    * getFilteredList - Метод для получения массива всех вопросов-ответов с фильтрацией по категориям
    * @return array - массив отфильтрованных вопросов-ответов
   */
-  public static function getFilteredList()
+  public static function getFilteredList($options)
   {
-    if (!isset($_POST['check'])) {
-      $_POST['check'] ="";
-    }
-
     $sql = "SELECT t1.*, t2.name AS cat_name, t3.status AS stat_name 
           FROM topics AS t1, categories AS t2, statuses AS t3 
-          WHERE t1.category_id = t2.id AND t1.status = t3.id AND t1.category_id ".$_POST['filter']." ".$_POST['check']." ORDER BY t1.id ASC";
+          WHERE t1.category_id = t2.id AND t1.status = t3.id 
+          AND t1.category_id ".$options['filter']." ".$options['check']." ORDER BY t1.id ASC";
     $result = DbModel::getConnection()->prepare($sql);
     $result->execute();
     return $result;

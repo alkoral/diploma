@@ -11,93 +11,93 @@
 
 <h4>Редактирование вопроса # {{id}} и ответа на него</h4>
   {% for message in messages | reverse %}
-		<h5><font color=blue>{{message}}</font></h5>
+    <h5><font color=blue>{{message}}</font></h5>
   {% endfor %}
 
 <form role="form" method="post" action="">
-	{% for gettopic in gettopics %}
-		<div class="form-group">
-			<input type="hidden" class="form-control" name="id" value="{{gettopic.id}}">
-		</div>
-	<div class="row"> {# первый ряд #}
-		<div class="form-group col-xs-4">
-			<label for="author">Автор</label>
-			<input type="text" class="form-control" name="author" value="{{gettopic.author}}" required>
-		</div>
-			
-		<div class="form-group col-xs-4">
-			<label for="email">Email</label>
-	    <input type="email" class="form-control" name="email" value="{{gettopic.email}}" required>
-		</div>
+  {% for gettopic in gettopics %}
+    <div class="form-group">
+      <input type="hidden" class="form-control" name="id" value="{{gettopic.id}}">
+    </div>
+  <div class="row"> {# первый ряд #}
+    <div class="form-group col-xs-4">
+      <label for="author">Автор</label>
+      <input type="text" class="form-control" name="author" value="{{gettopic.author}}" required>
+    </div>
+      
+    <div class="form-group col-xs-4">
+      <label for="email">Email</label>
+      <input type="email" class="form-control" name="email" value="{{gettopic.email}}" required>
+    </div>
 
-		<div class="form-group col-xs-4">
-			<label for="date">Дата создания</label>
-			<input type="text" class="form-control" name="date" value="{{gettopic.date|date("M. d, Y | H:i:s")}}" readonly>
-		</div>
-	</div>
+    <div class="form-group col-xs-4">
+      <label for="date">Дата создания</label>
+      <input type="text" class="form-control" name="date" value="{{gettopic.date|date("M. d, Y | H:i:s")}}" readonly>
+    </div>
+  </div>
 
-	<div class="row"> {# второй ряд #}
-		<div class="form-group col-xs-4">
-			<label for="category">Категория</label>
-			<select class="form-control" name="category_id">
-				{% for category in categories %}
-					{% if category.name == gettopic.cat_name %}
-						<option value="{{category.id}}">{{category.name}}</option>
-					{% endif %}
-				{% endfor %}
-				{% for category in categories %}
-					{% if category.name != gettopic.cat_name %}
-						<option value="{{category.id}}">{{category.name}}</option>
-					{% endif %}
-				{% endfor %}
-		  </select>
-		</div>
-				
-		<div class="form-group col-xs-4">
-			<label for="status">Статус</label>
-			<select class="form-control" name="status">
-				{% for status in statuses %}
-					{% if status.status == gettopic.stat_name %}
-						<option value="{{status.id}}">{{status.status}}</option>
-					{% endif %}
-				{% endfor %}
-				{% for status in statuses %}
-					{% if status.status != gettopic.stat_name %}
-						<option value="{{status.id}}">{{status.status}}</option>
-					{% endif %}
-				{% endfor %}
-		  </select>
-		</div>
+  <div class="row"> {# второй ряд #}
+    <div class="form-group col-xs-4">
+      <label for="category">Категория</label>
+      <select class="form-control" name="category_id">
+        {% for category in categories %}
+          {% if category.name == gettopic.cat_name %}
+            <option value="{{category.id}}">{{category.name}}</option>
+          {% endif %}
+        {% endfor %}
+        {% for category in categories %}
+          {% if category.name != gettopic.cat_name %}
+            <option value="{{category.id}}">{{category.name}}</option>
+          {% endif %}
+        {% endfor %}
+      </select>
+    </div>
+        
+    <div class="form-group col-xs-4">
+      <label for="status">Статус</label>
+      <select class="form-control" name="status">
+        {% for status in statuses %}
+          {% if status.status == gettopic.stat_name %}
+            <option value="{{status.id}}">{{status.status}}</option>
+          {% endif %}
+        {% endfor %}
+        {% for status in statuses %}
+          {% if status.status != gettopic.stat_name %}
+            <option value="{{status.id}}">{{status.status}}</option>
+          {% endif %}
+        {% endfor %}
+      </select>
+    </div>
 
-		<div class="form-group col-xs-4">
-			<label for="date">Последнее изменение</label>
-			<input type="text" class="form-control" name="modified" value="{{gettopic.modified|date("M. d, Y | H:i:s")}}" readonly>
-		</div>
-	</div>
+    <div class="form-group col-xs-4">
+      <label for="date">Последнее изменение</label>
+      <input type="text" class="form-control" name="modified" value="{{gettopic.modified|date("M. d, Y | H:i:s")}}" readonly>
+    </div>
+  </div>
 
-	<div class="row">
-		<div class="form-group col-xs-12">
-		  <label for="question">Вопрос</label>
-		  <textarea class="form-control" name="question" rows="3" maxlength="255" style="resize: none" required>{{gettopic.question}}</textarea>
-		  <style type="text/css"></style>
-		  <small id="emailHelp" class="form-text text-muted">Максимум - 255 символов.</small>
-		</div>
-	</div>
+  <div class="row">
+    <div class="form-group col-xs-12">
+      <label for="question">Вопрос</label>
+      <textarea class="form-control" name="question" rows="3" maxlength="255" style="resize: none" required>{{gettopic.question}}</textarea>
+      <style type="text/css"></style>
+      <small id="emailHelp" class="form-text text-muted">Максимум - 255 символов.</small>
+    </div>
+  </div>
 
-	<div class="row">
-		<div class="form-group col-xs-12">
-		  <label for="answer">Ответ</label>
-		  <textarea class="form-control" name="answer" placeholder="" rows="8" style="resize: none">{{gettopic.answer}}</textarea>
-		  <style type="text/css"></style>
-		</div>
-	</div>
+  <div class="row">
+    <div class="form-group col-xs-12">
+      <label for="answer">Ответ</label>
+      <textarea class="form-control" name="answer" placeholder="" rows="8" style="resize: none">{{gettopic.answer}}</textarea>
+      <style type="text/css"></style>
+    </div>
+  </div>
 
-	<div class="row">
-		<div class="form-group col-xs-1">
-		<button type="submit" name="submit" class="btn btn-primary">Изменить</button>
-		</div>
-	</div>
-	{% endfor %}
+  <div class="row">
+    <div class="form-group col-xs-1">
+    <button type="submit" name="submit" class="btn btn-primary">Изменить</button>
+    </div>
+  </div>
+  {% endfor %}
 </form>
 
 </div>

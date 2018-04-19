@@ -11,14 +11,14 @@
 <br>
 
 {% if num is not empty %}
-	<h4>{{num}} вопрос успешно удален</h4>
+  <h4>{{num}} вопрос успешно удален</h4>
 {% else %}
 <h4>Вы действительно хотите удалить вопрос # {{id}} ?</h4>
-	<br>
-	<form method="POST">
-		<input type="submit" name="submit" value="Удалить" class="btn btn-danger">
-		<a class="btn btn-primary" href="/diploma/topics/list" role="button">Отменить</a>
-	</form>
+  <br>
+  <form method="POST">
+    <input type="submit" name="submit" value="Удалить" class="btn btn-danger">
+    <a class="btn btn-primary" href="/diploma/topics/list" role="button">Отменить</a>
+  </form>
 {% endif %}
 
 </div>

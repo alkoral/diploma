@@ -31,8 +31,14 @@ class TopicsController extends Base
     $topicsList = Topics::getTopicList();
 
     /* получаем массив с фильтрацией по категории и вопросов без ответов */
-    if (isset($_POST['submit'])) {                
-      $topicsList = Topics::getFilteredList();
+    if (isset($_POST['submit'])) {
+      $options['filter'] = $_POST['filter'];
+      if (!isset($_POST['check'])) {
+        $_POST['check'] ="";
+      }
+      $options['check'] = $_POST['check'];
+
+      $topicsList = Topics::getFilteredList($options);
     }
 
     $categoriesList = Categories::getCategoriesList();

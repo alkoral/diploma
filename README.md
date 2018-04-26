@@ -1,5 +1,4 @@
 # diploma
-Дипломная работа по курсу «PHP/SQL: back-end разработка и базы данных» / Нетология, PHP-20
 
 Посмотреть работоспособность проекта можно тут: http://korzun.globalreservation.com/diploma/
 
